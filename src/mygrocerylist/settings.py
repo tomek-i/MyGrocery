@@ -35,6 +35,7 @@ INSTALLED_APPS = [
 
     # Project
     'grocerylist',
+    'classification',
 ]
 
 if DEBUG:
