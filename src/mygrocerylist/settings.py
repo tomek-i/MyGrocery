@@ -34,7 +34,7 @@ INSTALLED_APPS = [
     # 3rd Party
 
     # Project
-
+    'grocerylist',
 ]
 
 if DEBUG:
