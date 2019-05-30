@@ -12,8 +12,10 @@ class Product(models.Model):
     # DB FIELDS
 
     name = models.CharField(_('name'), max_length=50)
+    brand = models.CharField(_('brand'), max_length=50)
 
     # TODO: need to find out if barcodes are unique to store or to product, i would assume to product
+    # NOTE: should mark as unique ?
     barcode = models.CharField(_('barcode'), max_length=100, blank=True)
 
     created_at = models.DateTimeField(_('created at'), auto_now_add=True)
@@ -28,7 +30,7 @@ class Product(models.Model):
 
     # __STR__
     def __str__(self):
-        return self.name
+        return f'{self.brand} {self.name}'
 
     # SAVE
 
