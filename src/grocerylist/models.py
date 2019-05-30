@@ -2,40 +2,11 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 # Create your models here.
-from classification.models import Tag, Category
-
-
-class Store(models.Model):
-    """ A store """
-    # CHOICES
-
-    # DB FIELDS
-    name = models.CharField(_('name'), max_length=50)
-    # TODO: make address optional
-    address = models.CharField(_('address'), max_length=50)
-
-    created_at = models.DateTimeField(_('created at'), auto_now_add=True)
-    last_updated = models.DateTimeField(_('last updated'), auto_now=True)
-
-    # MANAGERS
-
-    # META
-    class Meta:
-        pass
-
-    # __STR__
-    def __str__(self):
-        return self.name
-
-    # SAVE
-
-    # ABSOLUTE URL
-
-    # METHODS
+#from classification.models import Tag, Category
 
 
 class Product(models.Model):
-    """ A product is usually linked to a store """
+    """ a product which can be bought at a supermarket for a specific price asked by the supermarket """
     # CHOICES
 
     # DB FIELDS
@@ -66,20 +37,111 @@ class Product(models.Model):
     # METHODS
 
 
-class StoreProducts(models.Model):
-    """ each store can contain the same product with different prices """
+class Supermarket(models.Model):
+    """ the supermarket which contains a list of products"""
     # CHOICES
 
     # DB FIELDS
-    product = models.ForeignKey(
-        Product,
-        verbose_name=_("product"),
-        on_delete=models.CASCADE)
+    name = models.CharField(_('name'), max_length=50)
+    address = models.CharField(_('address'), blank=True, max_length=50)
 
-    store = models.ForeignKey(
-        Store,
-        verbose_name=_("store"),
-        on_delete=models.CASCADE)
+    created_at = models.DateTimeField(_('created at'), auto_now_add=True)
+    last_updated = models.DateTimeField(_('last updated'), auto_now=True)
+
+    # , through='StoreProduct')
+    products = models.ManyToManyField(
+        Product, related_name='supermarkets', blank=True)
+
+    # MANAGERS
+
+    # META
+    class Meta:
+        pass
+
+    # __STR__
+    def __str__(self):
+        return self.name
+
+    # SAVE
+
+    # ABSOLUTE URL
+
+    # METHODS
+
+
+class Item(models.Model):
+    """ An item / to put on the grocery list """
+    # CHOICES
+
+    # DB FIELDS
+    name = models.CharField(_('name'), max_length=50)
+
+    created_at = models.DateTimeField(_('created at'), auto_now_add=True)
+    last_updated = models.DateTimeField(_('last updated'), auto_now=True)
+
+    # MANAGERS
+
+    # META
+    class Meta:
+        pass
+
+    # __STR__
+    def __str__(self):
+        return self.name
+
+    # SAVE
+
+    # ABSOLUTE URL
+
+    # METHODS
+    # def is_completed(self):
+    #    return self.cart.get(id=self.id).completed
+
+
+class ShoppingList(models.Model):
+    """ This is the grocery / shopping list you create """
+    # CHOICES
+
+    # DB FIELDS
+    name = models.CharField(_('name'), max_length=50)
+
+    # through='ShoppingBasket')
+    items = models.ManyToManyField(
+        Item, related_name='shoppinglist', blank=True)
+
+    created_at = models.DateTimeField(_('created at'), auto_now_add=True)
+    last_updated = models.DateTimeField(_('last updated'), auto_now=True)
+
+    # MANAGERS
+
+    # META
+    class Meta:
+        verbose_name = _('Shopping List')
+        verbose_name_plural = _('Shopping Lists')
+        pass
+
+    # __STR__
+    def __str__(self):
+        return self.name
+
+    # SAVE
+
+    # ABSOLUTE URL
+
+    # METHODS
+
+    def is_completed(self):
+        return self.items.filter(cart__completed=False).count() == 0
+
+
+"""
+class Supermarket_Product(models.Model):
+    # CHOICES
+
+    # DB FIELDS
+    #product = models.ForeignKey(        Product,        verbose_name=_("product"),        on_delete=models.CASCADE)
+
+    #store = models.ForeignKey(        Store,        verbose_name=_("supermarket"),        on_delete=models.CASCADE)
 
     price = models.DecimalField(_("price"), max_digits=5, decimal_places=2)
 
@@ -94,7 +156,7 @@ class StoreProducts(models.Model):
 
     # __STR__
     def __str__(self):
-        return f'{product} {price} - {store}'
+        return ''  # f'{self.product} {self.price} - {self.store}'
 
     # SAVE
 
@@ -102,17 +164,20 @@ class StoreProducts(models.Model):
 
     # METHODS
 
+class GroceryList_Item(models.Model):
 
-class Item(models.Model):
-    """ An item on the grocerylist """
+    # NOTE: or rename to shopping cart
     # CHOICES
 
     # DB FIELDS
-    name = models.CharField(_('name'), max_length=50)
+    #item = models.ForeignKey(        Item, on_delete=models.CASCADE, related_name='cart')
+
+    #grocerylist = models.ForeignKey(GroceryList, on_delete=models.CASCADE)
+
+    completed = models.BooleanField(default=False)
 
     created_at = models.DateTimeField(_('created at'), auto_now_add=True)
     last_updated = models.DateTimeField(_('last updated'), auto_now=True)
-
     # MANAGERS
 
     # META
@@ -121,36 +186,11 @@ class Item(models.Model):
 
     # __STR__
     def __str__(self):
-        return self.name
+        return ''  # f'{self.item}'
 
     # SAVE
 
     # ABSOLUTE URL
 
     # METHODS
-
-
-class GroceryList(models.Model):
-    """ Lists all items on the grocerylist """
-    # CHOICES
-
-    # DB FIELDS
-    name = models.CharField(_('name'), max_length=50)
-    created_at = models.DateTimeField(_('created at'), auto_now_add=True)
-    last_updated = models.DateTimeField(_('last updated'), auto_now=True)
-
-    # MANAGERS
-
-    # META
-    class Meta:
-        pass
-
-    # __STR__
-    def __str__(self):
-        return self.name
-
-    # SAVE
-
-    # ABSOLUTE URL
-
-    # METHODS
+"""
