@@ -51,7 +51,7 @@ class Category(models.Model):
 
     # META
     class Meta:
-        # TODO: add vebrose_plural name
+        # TODO: add verbose_plural name
         pass
 
     # __STR__
