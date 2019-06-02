@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+from classification.models import Category,Tag
 # Create your models here.
 #from classification.models import Tag, Category
 
@@ -81,6 +82,7 @@ class Item(models.Model):
     created_at = models.DateTimeField(_('created at'), auto_now_add=True)
     last_updated = models.DateTimeField(_('last updated'), auto_now=True)
 
+    category = models.ForeignKey(Category, verbose_name=_('category'),default=None, blank=True, null=True,related_name='items', on_delete=models.CASCADE)
     # MANAGERS
 
     # META
