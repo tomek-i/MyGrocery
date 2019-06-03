@@ -1,6 +1,7 @@
 from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
 from grocerylist.models import Item
+from classification.models import Category
 
 
 class Command(BaseCommand):
@@ -10,23 +11,24 @@ class Command(BaseCommand):
     #     parser.add_argument('sample', nargs='+')
 
     def handle(self, *args, **options):
-        print('deleting previous data')
+        print('   deleting previous data')
 
         Item.objects.all().delete()
 
-        print('creating data')
+        print('   creating data')
 
         Item.objects.bulk_create([
-            Item(name='Milk'),
-            Item(name='Eggs'),
-            Item(name='Cat Food'),
-            Item(name='Onion'),
-            Item(name='Garlic'),
-            Item(name='Coriander'),
-            Item(name='Chips'),
-            Item(name='Water'),
+            Item(name='Milk', category=Category.objects.get(slug='dairy-and-milk')),
+            Item(name='Ice Cream', category=Category.objects.get(
+                slug='dairy-and-milk')),
+            Item(name='Eggs', category=Category.objects.get(
+                slug='protein-and-meat')),
+            Item(name='Water', category=Category.objects.get(
+                slug='other')),
+            Item(name='Chicken Breast', category=Category.objects.get(
+                 slug='chicken')),
 
         ])
 
-        print('completed')
+        print('   completed\n')
         pass

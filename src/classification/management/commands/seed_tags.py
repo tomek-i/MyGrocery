@@ -9,6 +9,9 @@ class Command(BaseCommand):
     #     parser.add_argument('sample', nargs='+')
 
     def handle(self, *args, **options):
+        print('   deleting previous data')
+        Tag.objects.all().delete()
+        print('   creating data')
         Tag.objects.bulk_create(
             [
                 Tag(name='fruit'),
@@ -19,3 +22,5 @@ class Command(BaseCommand):
                 Tag(name='high'),
             ]
         )
+
+        print('   completed\n')

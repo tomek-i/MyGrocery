@@ -10,11 +10,11 @@ class Command(BaseCommand):
     #     parser.add_argument('sample', nargs='+')
 
     def handle(self, *args, **options):
-        print('deleting previous data')
+        print('   deleting previous data')
 
         Supermarket.objects.all().delete()
 
-        print('creating data')
+        print('   creating data')
 
         Supermarket.objects.bulk_create([
             Supermarket(
@@ -31,5 +31,5 @@ class Command(BaseCommand):
                 address='Yambil St & Crossing St Griffin Plaza, Griffith NSW 2680'),
         ])
 
-        print('completed')
+        print('   completed\n')
         pass

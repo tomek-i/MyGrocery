@@ -9,4 +9,7 @@ class Command(BaseCommand):
     #     parser.add_argument('sample', nargs='+')
 
     def handle(self, *args, **options):
+        print('   deleting previous data')
+        print('   creating data')
+        print('   completed\n')
         pass
