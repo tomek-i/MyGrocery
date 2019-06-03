@@ -10,9 +10,9 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='supermarket',
-            name='products',
-            field=models.ManyToManyField(blank=True, related_name='supermarkets', to='grocerylist.Product'),
-        ),
+        # migrations.AddField(
+        #    model_name='supermarket',
+        #    name='products',
+        #    field=models.ManyToManyField(blank=True, related_name='supermarkets', to='grocerylist.Product'),
+        # ),
     ]

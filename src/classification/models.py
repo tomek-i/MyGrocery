@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.utils.text import slugify
 
 # Create your models here.
 
@@ -35,7 +36,9 @@ class Category(models.Model):
     # CHOICES
 
     # DB FIELDS
-    name = models.CharField(_('name'), max_length=50)
+    name = models.CharField(_('name'), max_length=50, unique=True)
+    slug = models.SlugField(unique=True)
+
     desc = models.TextField(_("description"))
     parent = models.ForeignKey(
         'self',
@@ -52,6 +55,7 @@ class Category(models.Model):
     # META
     class Meta:
         # TODO: add verbose_plural name
+        verbose_name_plural = 'categories'
         pass
 
     # __STR__
@@ -59,7 +63,10 @@ class Category(models.Model):
         return self.name
 
     # SAVE
-
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name.replace('&', 'and'))
+        # TODO: can that be just super() ?
+        super(Category, self).save(*args, **kwargs)
     # ABSOLUTE URL
 
     # METHODS

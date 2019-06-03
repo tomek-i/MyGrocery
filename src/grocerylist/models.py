@@ -1,9 +1,40 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-from classification.models import Category,Tag
+from classification.models import Category, Tag
 # Create your models here.
 #from classification.models import Tag, Category
+
+
+class Item(models.Model):
+    """ An item / to put on the grocery list """
+    # CHOICES
+
+    # DB FIELDS
+    name = models.CharField(_('name'), max_length=50)
+
+    created_at = models.DateTimeField(_('created at'), auto_now_add=True)
+    last_updated = models.DateTimeField(_('last updated'), auto_now=True)
+
+    category = models.ForeignKey(Category, verbose_name=_(
+        'category'), default=None, blank=True, null=True, related_name='items', on_delete=models.CASCADE)
+    # MANAGERS
+
+    # META
+    class Meta:
+        pass
+
+    # __STR__
+    def __str__(self):
+        return self.name
+
+    # SAVE
+
+    # ABSOLUTE URL
+
+    # METHODS
+    # def is_completed(self):
+    #    return self.cart.get(id=self.id).completed
 
 
 class Product(models.Model):
@@ -22,6 +53,8 @@ class Product(models.Model):
     created_at = models.DateTimeField(_('created at'), auto_now_add=True)
     last_updated = models.DateTimeField(_('last updated'), auto_now=True)
 
+    item_type = models.ForeignKey(Item, verbose_name=_(
+        'type'), related_name='products', on_delete=models.CASCADE, blank=True, null=True)
     # MANAGERS
 
     # META
@@ -53,7 +86,7 @@ class Supermarket(models.Model):
 
     # , through='StoreProduct')
     products = models.ManyToManyField(
-        Product, related_name='supermarkets', blank=True)
+        Product,  through='Supermarket_Product', blank=True)
 
     # MANAGERS
 
@@ -70,36 +103,6 @@ class Supermarket(models.Model):
     # ABSOLUTE URL
 
     # METHODS
-
-
-class Item(models.Model):
-    """ An item / to put on the grocery list """
-    # CHOICES
-
-    # DB FIELDS
-    name = models.CharField(_('name'), max_length=50)
-
-    created_at = models.DateTimeField(_('created at'), auto_now_add=True)
-    last_updated = models.DateTimeField(_('last updated'), auto_now=True)
-
-    category = models.ForeignKey(Category, verbose_name=_('category'),default=None, blank=True, null=True,related_name='items', on_delete=models.CASCADE)
-    # MANAGERS
-
-    # META
-    class Meta:
-        pass
-
-    # __STR__
-    def __str__(self):
-        return self.name
-
-    # SAVE
-
-    # ABSOLUTE URL
-
-    # METHODS
-    # def is_completed(self):
-    #    return self.cart.get(id=self.id).completed
 
 
 class ShoppingList(models.Model):
@@ -138,16 +141,20 @@ class ShoppingList(models.Model):
         return self.items.filter(cart__completed=False).count() == 0
 
 
-"""
 class Supermarket_Product(models.Model):
     # CHOICES
 
     # DB FIELDS
-    #product = models.ForeignKey(        Product,        verbose_name=_("product"),        on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, verbose_name=_(
+        'product'), on_delete=models.CASCADE)
 
-    #store = models.ForeignKey(        Store,        verbose_name=_("supermarket"),        on_delete=models.CASCADE)
+    store = models.ForeignKey(Supermarket, verbose_name=_(
+        'supermarket'), on_delete=models.CASCADE)
 
-    price = models.DecimalField(_("price"), max_digits=5, decimal_places=2)
+    price = models.DecimalField(_('price'), max_digits=5, decimal_places=2)
+    short_name = models.CharField(
+        _('short name'), unique=True, max_length=30, blank=True)
+    code = models.CharField(_("code"), unique=True, max_length=30, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
@@ -155,12 +162,13 @@ class Supermarket_Product(models.Model):
     # MANAGERS
 
     # META
+
     class Meta:
         pass
 
     # __STR__
     def __str__(self):
-        return ''  # f'{self.product} {self.price} - {self.store}'
+        return f'{self.product} {self.price} - {self.store}'
 
     # SAVE
 
@@ -168,6 +176,8 @@ class Supermarket_Product(models.Model):
 
     # METHODS
 
+
+"""
 class GroceryList_Item(models.Model):
 
     # NOTE: or rename to shopping cart

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import ShoppingList,  Item, Product, Supermarket
+from .models import ShoppingList,  Item, Product, Supermarket, Supermarket_Product
 
 # Register your models here.
 
@@ -9,12 +9,12 @@ from .models import ShoppingList,  Item, Product, Supermarket
 class ItemsOnShoppinglist(admin.TabularInline):
     model = ShoppingBasket
     extra = 1
+"""
 
 
 class ProductsInSupermarket(admin.TabularInline):
-    model = StoreProduct
+    model = Supermarket_Product
     extra = 1
-"""
 
 
 @admin.register(ShoppingList)
@@ -44,6 +44,7 @@ class ShoppingListAdmin(admin.ModelAdmin):
 
 @admin.register(Item)
 class ItemAdmin(admin.ModelAdmin):
+    list_display = ('name', 'category')
     pass
 
 
@@ -52,10 +53,16 @@ class ProductAdmin(admin.ModelAdmin):
     pass
 
 
+@admin.register(Supermarket_Product)
+class ProductsInSupermarketAdmin(admin.ModelAdmin):
+    list_display = ('product', 'price', 'store', 'code', 'short_name')
+    pass
+
+
 @admin.register(Supermarket)
 class StoreAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'address')
     list_display_links = ('id', 'name')
     ordering = ['id', ]
-    #inlines = [ProductsInSupermarket]
+    inlines = [ProductsInSupermarket]
     pass
