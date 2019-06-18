@@ -1,9 +1,21 @@
-Number, Name, Price, Taxable
-59297, Spanakotipa 850g, 6.99, B
-6082, Flour S/R 1kg,0.99,A
-77584, Tomatao Gmt p/kg, 3.29, A
-0.660kb Net @ 4.99 $/kg
-9339, Eggs Barn 700g, 3.39, A
-60997, Mens Denim Jeans, 14.99,B
-60996, Mens Denim Jeans, 14.99,B
-4163 WaterMinNat 1.25L,0.85,B
+Number/Barcode,Name,Price,Taxable,Additional Info,Product Slug,Normalized Price (100g)
+4163,WaterMinNat 1.25L,0.85,B,,,0.068
+5063,Calamari Rings 400g,4.99,A,,,1.2475
+5262,Sour Cream 300G,1.89,A,,,
+6082,Flour S/R 1kg,0.99,A,,,0.099
+9007,Aioli Mayo 260g,3.99,A,,,1.534615384615385
+9339,Eggs Barn 700g,3.39,A,,,0.4842857142857143
+9629,Cones PNut Btr Reeses,4.99,B,,,
+41045,Chs Club Cheddar 235g,3.99,A,,,1.697872340425532
+42280,Car Food Fresh Mince 4,4.49,B,,,
+55218,Frz S&P Squid 360g,4.99,A,,,1.386111111111111
+57704,Beef Mince 4 Star 500g,6.49,A,,,1.298
+59297,Spanakotipa 850g,6.99,B,,,0.8223529411764706
+60996,Mens Denim Jeans,14.99,B,,,
+60997,Mens Denim Jeans,14.99,B,,,
+61042,Chs Cream Barrels 200g,2.49,A,,,
+62000,Chs Cheddar Aged 200-2,3.99,A,,,
+77255,Lettuce Iceberg each,1.79,A,,,
+77480,Shallots,2.29,A,,,
+77584,Tomatao Gmt p/kg,3.29,A,0.660kb Net @ 4.99 $/kg,,
+77736,Herbs Coriander 50g,2.99,A,,,
