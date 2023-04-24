@@ -9,6 +9,7 @@ sphinx = "*"
 faker = "*"
 coverage = "*"
 pylint = "*"
+autopep8 = "*"
 
 [packages]
 django = "*"

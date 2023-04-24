@@ -1,0 +1,8 @@
+[run]
+omit =
+    # omit anything in a .local directory anywhere
+    */.local/*
+    # omit everything in /usr
+    *env/*
+    # omit this single file
+    manage.py
